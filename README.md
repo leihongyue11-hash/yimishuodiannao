@@ -12,7 +12,7 @@
     <meta name="x5-orientation" content="landscape">
     <meta name="x5-fullscreen" content="true">
     <meta name="x5-page-mode" content="app">
-    <title>怀旧游戏机-小刀y娱乐网www.x6d.com</title>
+    <title>怀旧游戏机-公众号 壹米说电脑</title>
 
     <meta name="keywords" content="c在线玩,fc游戏在线玩,fc在线模拟器,nes在线模拟器,魂斗罗,超级玛丽,忍者龙剑传">
     <meta name="description" content="可在手机电脑上在线玩fc游戏的网站,近乎完美的还原任天堂FC/NES原版ROM游戏的视频和声音。">
