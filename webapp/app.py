@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import threading
 import uuid
+import zipfile
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -23,7 +24,6 @@ OUTPUT_DIR = DATA_DIR / "outputs"
 for p in (UPLOAD_DIR, OUTPUT_DIR):
     p.mkdir(parents=True, exist_ok=True)
 
-
 Status = Literal["queued", "running", "success", "failed"]
 
 
@@ -38,14 +38,18 @@ class Task:
     input_path: str = ""
     output_path: str = ""
     error_message: str = ""
+    detail: str = ""
+    task_type: Literal["single", "batch"] = "single"
 
 
 class TaskView(BaseModel):
     id: str
     filename: str
+    task_type: Literal["single", "batch"]
     status: Status
     progress: int
     error_message: str = ""
+    detail: str = ""
     download_url: str | None = None
     created_at: datetime
     updated_at: datetime
@@ -62,37 +66,87 @@ def _now(task: Task) -> None:
     task.updated_at = datetime.utcnow()
 
 
-def _render_fallback_pdf(task: Task) -> str:
+def _converter_template() -> str:
+    template = os.getenv("DWG_CONVERTER_CMD", "").strip()
+    if not template:
+        raise RuntimeError(
+            "DWG_CONVERTER_CMD is not configured. Example: "
+            "DWG_CONVERTER_CMD='ODAFileConverter \"{input_dir}\" \"{output_dir}\" ACAD2018 PDF 0 1'"
+        )
+    return template
+
+
+def _run_converter(input_path: Path, output_pdf: Path) -> None:
+    template = _converter_template()
+    output_pdf.parent.mkdir(parents=True, exist_ok=True)
+    cmd = template.format(
+        input=str(input_path),
+        input_dir=str(input_path.parent),
+        input_name=input_path.name,
+        input_stem=input_path.stem,
+        output=str(output_pdf),
+        output_dir=str(output_pdf.parent),
+        output_name=output_pdf.name,
+        output_stem=output_pdf.stem,
+    )
+    proc = subprocess.run(cmd, shell=True, text=True, capture_output=True)
+    if proc.returncode != 0:
+        raise RuntimeError(f"convert failed({proc.returncode}): {proc.stderr.strip() or proc.stdout.strip() or cmd}")
+    if not output_pdf.exists() or output_pdf.stat().st_size == 0:
+        raise RuntimeError(f"convert finished but output not found: {output_pdf}")
+
+
+def _convert_single(task: Task) -> str:
     output = OUTPUT_DIR / f"{task.id}.pdf"
-    with output.open("wb") as f:
-        f.write(b"%PDF-1.4\n")
-        f.write(b"1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n")
-        f.write(b"2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj\n")
-        text = f"DWG file uploaded: {task.filename}.\\nConfigure DWG_CONVERTER_CMD for real conversion.".encode("latin-1", "replace")
-        stream = b"BT /F1 14 Tf 50 750 Td (" + text.replace(b"(", b"[").replace(b")", b"]") + b") Tj ET"
-        f.write(b"3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>endobj\n")
-        f.write(b"4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj\n")
-        f.write(f"5 0 obj<</Length {len(stream)}>>stream\n".encode())
-        f.write(stream + b"\nendstream endobj\n")
-        f.write(b"xref\n0 6\n0000000000 65535 f \n")
-        offsets = [9, 56, 113, 239, 309]
-        for off in offsets:
-            f.write(f"{off:010d} 00000 n \n".encode())
-        f.write(b"trailer<</Root 1 0 R/Size 6>>\nstartxref\n390\n%%EOF")
+    _run_converter(Path(task.input_path), output)
+    task.detail = "single conversion completed"
     return str(output)
 
 
-def _run_conversion(task: Task) -> str:
-    cmd_template = os.getenv("DWG_CONVERTER_CMD", "").strip()
-    if not cmd_template:
-        return _render_fallback_pdf(task)
+def _extract_dwg_from_zip(zip_path: Path, dest: Path) -> list[Path]:
+    dwg_files: list[Path] = []
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        for info in zf.infolist():
+            if info.is_dir():
+                continue
+            name = Path(info.filename)
+            if name.suffix.lower() != ".dwg":
+                continue
+            safe_name = "_".join(name.parts)
+            target = dest / safe_name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with zf.open(info, "r") as src, target.open("wb") as out:
+                shutil.copyfileobj(src, out)
+            dwg_files.append(target)
+    return dwg_files
 
-    output = OUTPUT_DIR / f"{task.id}.pdf"
-    cmd = cmd_template.format(input=task.input_path, output=str(output))
-    subprocess.run(cmd, shell=True, check=True)
-    if not output.exists():
-        raise RuntimeError("converter finished but output PDF not found")
-    return str(output)
+
+def _convert_batch(task: Task) -> str:
+    working = OUTPUT_DIR / task.id
+    working.mkdir(parents=True, exist_ok=True)
+    extract_dir = working / "extracted"
+    extract_dir.mkdir(exist_ok=True)
+    pdf_dir = working / "pdfs"
+    pdf_dir.mkdir(exist_ok=True)
+
+    dwg_files = _extract_dwg_from_zip(Path(task.input_path), extract_dir)
+    if not dwg_files:
+        raise RuntimeError("ZIP contains no .dwg files")
+
+    total = len(dwg_files)
+    for idx, dwg in enumerate(dwg_files, start=1):
+        output_pdf = pdf_dir / f"{dwg.stem}.pdf"
+        _run_converter(dwg, output_pdf)
+        task.progress = 10 + int((idx / total) * 85)
+        task.detail = f"converted {idx}/{total}: {dwg.name}"
+        _now(task)
+
+    output_zip = OUTPUT_DIR / f"{task.id}.zip"
+    with zipfile.ZipFile(output_zip, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for pdf in sorted(pdf_dir.glob("*.pdf")):
+            zf.write(pdf, arcname=pdf.name)
+    task.detail = f"batch conversion completed: {total} files"
+    return str(output_zip)
 
 
 def _worker() -> None:
@@ -106,7 +160,10 @@ def _worker() -> None:
             task.status = "running"
             task.progress = 10
             _now(task)
-            task.output_path = _run_conversion(task)
+            if task.task_type == "single":
+                task.output_path = _convert_single(task)
+            else:
+                task.output_path = _convert_batch(task)
             task.status = "success"
             task.progress = 100
             _now(task)
@@ -122,6 +179,13 @@ def _worker() -> None:
 threading.Thread(target=_worker, daemon=True).start()
 
 
+def _save_upload(file: UploadFile, suffix: str, task_id: str) -> Path:
+    path = UPLOAD_DIR / f"{task_id}{suffix}"
+    with path.open("wb") as out:
+        shutil.copyfileobj(file.file, out)
+    return path
+
+
 @app.post("/api/v1/convert", response_model=TaskView)
 async def create_convert_task(
     file: UploadFile = File(...),
@@ -131,19 +195,18 @@ async def create_convert_task(
     line_style: str = Form("default"),
 ) -> TaskView:
     ext = Path(file.filename).suffix.lower()
-    if ext != ".dwg":
-        raise HTTPException(status_code=400, detail="Only .dwg files are accepted")
+    if ext not in {".dwg", ".zip"}:
+        raise HTTPException(status_code=400, detail="Only .dwg or .zip files are accepted")
 
     task_id = str(uuid.uuid4())
-    input_path = UPLOAD_DIR / f"{task_id}.dwg"
-    with input_path.open("wb") as out:
-        shutil.copyfileobj(file.file, out)
-
+    task_type: Literal["single", "batch"] = "single" if ext == ".dwg" else "batch"
+    input_path = _save_upload(file, ext, task_id)
     task = Task(
         id=task_id,
         filename=file.filename,
         input_path=str(input_path),
-        error_message=f"options: paper_size={paper_size}, orientation={orientation}, scale={scale}, line_style={line_style}",
+        task_type=task_type,
+        detail=f"options: paper_size={paper_size}, orientation={orientation}, scale={scale}, line_style={line_style}",
     )
     TASKS[task_id] = task
     JOB_QUEUE.put(task_id)
@@ -165,16 +228,21 @@ def download(task_id: str):
         raise HTTPException(status_code=404, detail="Task not found")
     if task.status != "success" or not task.output_path:
         raise HTTPException(status_code=400, detail="Task is not ready")
-    return FileResponse(task.output_path, filename=f"{Path(task.filename).stem}.pdf", media_type="application/pdf")
+    name_stem = Path(task.filename).stem
+    filename = f"{name_stem}.pdf" if task.task_type == "single" else f"{name_stem}_pdfs.zip"
+    media = "application/pdf" if task.task_type == "single" else "application/zip"
+    return FileResponse(task.output_path, filename=filename, media_type=media)
 
 
 def _to_view(task: Task) -> TaskView:
     return TaskView(
         id=task.id,
         filename=task.filename,
+        task_type=task.task_type,
         status=task.status,
         progress=task.progress,
         error_message=task.error_message,
+        detail=task.detail,
         download_url=f"/api/v1/download/{task.id}" if task.status == "success" else None,
         created_at=task.created_at,
         updated_at=task.updated_at,

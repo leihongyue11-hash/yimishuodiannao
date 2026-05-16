@@ -12,18 +12,18 @@
     label{display:block;margin-bottom:6px;font-weight:600}
     input,select,button{padding:10px;border:1px solid #ddd;border-radius:8px}
     button{background:#1565d8;color:#fff;cursor:pointer}
-    #log{margin-top:16px;padding:12px;background:#0f172a;color:#e2e8f0;border-radius:8px;min-height:80px;white-space:pre-wrap}
+    #log{margin-top:16px;padding:12px;background:#0f172a;color:#e2e8f0;border-radius:8px;min-height:120px;white-space:pre-wrap}
     .muted{color:#666;font-size:13px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>DWG 转 PDF 在线工具</h1>
-    <p class="muted">上传 DWG 文件，系统会异步转换并生成 PDF 下载链接（支持多人访问）。</p>
+    <p class="muted">支持单个 DWG 或 ZIP 批量（ZIP 内多个 DWG）转换。请先在服务端配置 DWG_CONVERTER_CMD。</p>
 
     <div class="row">
-      <label>选择 DWG 文件</label>
-      <input id="file" type="file" accept=".dwg" />
+      <label>选择文件（.dwg 或 .zip）</label>
+      <input id="file" type="file" accept=".dwg,.zip" />
     </div>
 
     <div class="row">
@@ -50,7 +50,7 @@
       while(true){
         const res = await fetch(`/api/v1/tasks/${taskId}`);
         const data = await res.json();
-        log(`任务ID: ${data.id}\n状态: ${data.status}\n进度: ${data.progress}%\n信息: ${data.error_message || '无'}`);
+        log(`任务ID: ${data.id}\n类型: ${data.task_type}\n状态: ${data.status}\n进度: ${data.progress}%\n详情: ${data.detail || '无'}\n错误: ${data.error_message || '无'}`);
         if(data.status === 'success'){
           log(`任务ID: ${data.id}\n状态: 转换完成\n下载: ${location.origin}${data.download_url}`);
           break;
@@ -63,7 +63,7 @@
     document.getElementById('submit').addEventListener('click', async () => {
       const fileInput = document.getElementById('file');
       if(!fileInput.files.length){
-        log('请先选择 DWG 文件');
+        log('请先选择 DWG 或 ZIP 文件');
         return;
       }
       const fd = new FormData();
