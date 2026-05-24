@@ -1,51 +1,72 @@
-# Public account H5 and ad monetization
+# 小霸王游戏机 H5 广告变现方案
 
-This project is already closest to a WeChat public-account H5 page. Publish it as an HTTPS website, then add the URL to a public-account custom menu.
+## 当前状态
+- ✅ 项目已部署到 GitHub Pages（HTTPS）
+- ✅ Google AdSense 已集成（ca-pub-5678257058574392）
+- ✅ ads.txt 已配置
+- ✅ 4个广告位已部署
+- ✅ 微信分享已配置
+- ✅ 公众号关注引导栏已添加
 
-## Recommended path
+## 部署信息
 
-1. Host this directory as a static HTTPS site.
-2. Configure the public account JS security domain and business domain to match the site domain.
-3. In the public-account custom menu, choose a web-page jump and paste the HTTPS URL.
-4. Add the site in Google AdSense and request review after the page is published.
-5. Keep Auto ads enabled in AdSense, or replace the empty slot content in `js/ads.js` with fixed ad-unit code later.
+1. **静态托管**: GitHub Pages (HTTPS)
+2. **公众号配置**: JS安全域名 + 业务域名
+3. **自定义菜单**: 网页跳转 → HTTPS URL
+4. **AdSense**: Auto ads + 固定广告位双模式
 
-## Google AdSense
+## Google AdSense 配置
 
-The page includes the AdSense account tag and Auto ads loader for:
+账户ID: `ca-pub-5678257058574392`
 
-```txt
-ca-pub-5678257058574392
+ads.txt:
 ```
-
-The root `ads.txt` file contains:
-
-```txt
 google.com, pub-5678257058574392, DIRECT, f08c47fec0942fa0
 ```
 
-## Ad slots
+## 广告位一览（4个）
 
-The page now contains two non-invasive slots:
+| 广告位 | 位置 | 触发方式 | 尺寸 | 建议AdSense格式 |
+|--------|------|----------|------|-----------------|
+| top-banner | 顶部横幅 | 页面加载时 | 320×50 | 横幅广告 |
+| bottom-banner | 底部右侧 | 页面加载时 | 160×50 | 方形广告 |
+| right-float | 右侧悬浮 | 页面加载时 | 100×200 | 竖幅广告 |
+| pause-interstitial | 暂停弹窗 | 第3次暂停时 | 280×200 | 插页广告 |
 
-- `top-banner`
-- `bottom-banner`
+## 收入优化建议
 
-By default these fixed slots are hidden because the site uses AdSense Auto ads. If you create fixed display ad units in AdSense, update `js/ads.js`:
+### 短期（1-2周）
+1. ✅ 启用AdSense Auto ads（已配置）
+2. 创建4个固定广告位单元，填入ads.js
+3. 在公众号文章中引导用户访问
 
-```js
-slots: {
-  "top-banner": {
-    html: "<!-- paste ad network code here -->"
-  },
-  "bottom-banner": {
-    html: "<!-- paste ad network code here -->"
-  }
-}
+### 中期（1个月）
+1. 分析各广告位CTR，优化位置
+2. 考虑接入腾讯广告（国内用户更友好）
+3. 增加"看广告解锁游戏"的激励视频模式
+
+### 长期（3个月+）
+1. 开发微信小程序版本（可使用微信官方广告组件）
+2. 接入更多广告联盟（穿山甲、优量汇）
+3. 会员去广告模式（付费解锁）
+
+## 公众号集成
+
+### 自定义菜单配置
+```
+菜单名称: 🎮 怀旧游戏
+跳转URL: https://leihongyue11-hash.github.io/yimidiannao/
 ```
 
-## Mini program notes
+### 文章推广模板
+```
+标题: 手机也能玩超级玛丽了！在线小霸王游戏机，打开就能玩
+正文: 不需要下载，不需要安装，打开网页就能玩！
+      超级玛丽、魂斗罗、冒险岛...80/90后童年回忆殺
+      👉 点击开始玩：[链接]
+```
 
-A mini program can use official ad components after the account meets platform requirements, but this emulator depends on browser APIs, ROM files, and page-level JavaScript. Porting it to a mini program would be a rewrite and may face content and copyright review risk if bundled ROMs are not licensed.
-
-For this codebase, H5 in the public-account menu is the fastest and lowest-risk launch path.
+## 注意事项
+- ROM文件版权：仅限学习研究，不可商业使用
+- Google AdSense在国内访问不稳定，建议同时接入腾讯广告
+- 暂停广告不宜过于频繁（当前设置为第3次暂停触发）
