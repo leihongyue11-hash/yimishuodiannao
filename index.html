@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
@@ -13,19 +14,43 @@
     <meta name="x5-fullscreen" content="true">
     <meta name="x5-page-mode" content="app">
     <meta name="google-adsense-account" content="ca-pub-5678257058574392">
-    <title>怀旧游戏机-公众号《壹米说电脑》</title>
+    <title>🎮 在线小霸王游戏机 - 1秒找回童�?| 壹米说电�?/title>
 
-    <meta name="keywords" content="c在线玩,fc游戏在线玩,fc在线模拟器,nes在线模拟器,魂斗罗,超级玛丽,忍者龙剑传">
-    <meta name="description" content="可在手机电脑上在线玩fc游戏的网站,近乎完美的还原任天堂FC/NES原版ROM游戏的视频和声音。">
+    <meta name="keywords" content="小霸王游戏机在线�?fc游戏在线�?fc在线模拟�?nes在线模拟�?魂斗�?超级玛丽,忍者龙剑传,冒险�?坦克大战,雪人兄弟">
+    <meta name="description" content="手机电脑都能玩的在线小霸王游戏机！超级玛丽、魂斗罗、淘金者、冒险岛...80/90后童年回忆，无需下载，打开即玩！公众号《壹米说电脑》出�?>
     <link href="css/jsnes.css" rel="stylesheet" type="text/css">
     <link href="css/ads.css" rel="stylesheet" type="text/css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5678257058574392" crossorigin="anonymous"></script>
+
+    <!-- Open Graph for better sharing -->
+    <meta property="og:title" content="🎮 在线小霸王游戏机 - 1秒找回童�?>
+    <meta property="og:description" content="超级玛丽、魂斗罗、冒险岛...80/90后经典游戏，手机电脑都能玩！">
+    <meta property="og:image" content="logo1.png">
+    <meta property="og:type" content="website">
 </head>
 
 <body>
+    <!-- ========== 广告�?：顶部横�?========== -->
     <div class="ad-slot ad-slot-top" data-ad-slot="top-banner" aria-label="Advertisement"></div>
+
+    <!-- ========== 广告�?：暂停弹窗广�?========== -->
+    <div id="pause-ad-overlay" class="ad-overlay" style="display:none;">
+        <div class="ad-overlay-content">
+            <div class="ad-overlay-header">
+                <span class="ad-overlay-title">�?休息一�?/span>
+                <button id="close-pause-ad" class="ad-overlay-close" aria-label="关闭广告">�?/button>
+            </div>
+            <div class="ad-slot ad-slot-pause" data-ad-slot="pause-interstitial" aria-label="Advertisement"></div>
+            <div class="ad-overlay-footer">
+                <button id="resume-game-btn" class="resume-btn">�?继续游戏</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 广告�?：右侧悬�?========== -->
+    <div class="ad-slot ad-slot-right" data-ad-slot="right-float" aria-label="Advertisement"></div>
+
     <audio style="display:none; height: 0" id="bg-music" preload="auto" src="bgm.mp3"></audio>
-    <!--<embed src="bgm.mp3" hidden="true" autostart="true"/>-->
     <div class="main">
         <div class="panel">
             <div class="controller-area">
@@ -63,7 +88,30 @@
             <div class="sign">FAMILY <br> COMPUTER</div>
         </div>
     </div>
+
+    <!-- ========== 广告�?：底部横�?========== -->
     <div class="ad-slot ad-slot-bottom" data-ad-slot="bottom-banner" aria-label="Advertisement"></div>
+
+    <!-- ========== 公众号关注引导栏 ========== -->
+    <div id="follow-bar" class="follow-bar">
+        <div class="follow-bar-inner">
+            <img src="logo1.png" alt="壹米说电�? class="follow-bar-logo" onerror="this.style.display='none'">
+            <div class="follow-bar-text">
+                <strong>壹米说电�?/strong>
+                <span>实用技�?· 怀旧游�?· 更多干货</span>
+            </div>
+            <button id="follow-btn" class="follow-bar-btn" onclick="alert('长按识别二维码关注公众号《壹米说电脑�?)">+ 关注</button>
+        </div>
+    </div>
+
+    <!-- ========== 分享引导浮层 ========== -->
+    <div id="share-guide" class="share-guide" style="display:none;" onclick="document.getElementById('share-guide').style.display='none'">
+        <div class="share-guide-arrow">�?/div>
+        <div class="share-guide-text">
+            <p>👆 点击右上�?/p>
+            <p>分享给朋友一起玩�?/p>
+        </div>
+    </div>
 </body>
 <script src="js/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/dynamicaudio-min.js" type="text/javascript" charset="utf-8"></script>
@@ -75,10 +123,11 @@
 <script src="js/papu.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/ppu.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/rom.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/ui.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/ui.js?v=20260524" type="text/javascript" charset="utf-8"></script>
+<script src="js/ads.js" type="text/javascript" charset="utf-8"></script>
 <!-- <script src="js/debug.js" type="text/javascript" charset="utf-8"></script> -->
 <script type="text/javascript" charset="utf-8">
-    var _0xode = 'jsjiami.com.v6', _0x5292 = [_0xode, 'w4gRbcK6RcK0YcOyDkTDgQPCn1nDv8Onw4/DiMKFSyouw53CnMOTU2TCq01RHcKsBsKAwokCShoiXnV3', '5YeG6Zis5bOu', 'J8OCGWzDkVVXXcK6wpl8w5zCv8KhwrjDn8Odw4dq', '6a+L5pWT572I', 'w4bCiVVnPXwRw5LDqGRZwoc=', '5LqY5Zup6LCF5qOI', 'L8Oxw5rClcOswo0Tw50ODcK+wq5bw7hZO8Kdwo3DncKGw6TDncOxw5zDqcOHMA==', '5Zys5YSH5aai5omi', 'CcKjIBkfwpgFwrt3N8OAfcOmEg==', 'J8OCGWzDkUBDV8KwwpVzwpzCtcKlwqQ=', 'wqbCjsK0w4pew7LDpsOKwp5sBcOww67Cug==', '6LWF5b2P5oii5aKG', '54Ok5b+Z5LuC', 'w7cKClzDgMObXik0dlE=', 'wrjCt8OQHi7DoQ7DlsKzwpZmKcObwpt8SgvDsMKGADJIw7w=', 'CcKjIBkfw4Quw7w8esK4IsKtUxrCkMKETUrDicOvcsK9XE0Xw6slwpYsZ8O9wobCiMOGwoUlw74=', '5Lq855u656qB5a2T', 'BMKkw7bClnBnQzxaw4sxB8Og', '5byO6IGX56eG6b25wpM=', '5r6h6b+r5b++5om/', 'w7fDpmgAwonDqsOjw4XCmxHDrgE=', 'J8OCGWzDkUBPWMOzw55zw5fCqA==', '5rKL572S5pie6JqK', 'c8OkZhh5w7jDqcO9w7UbG8Onw43DkcOXw67DpsK4PsOew7nDvhDDuU5vw6dmGsK4NGc0LTQUw4M=', 'wrQfVBJT', 'BMObOUXCig==', 'w63DocKODm4=', 'w6jDvMK/NnQ=', 'CMOSwr3DpcKP', 'KcKpw787aQ==', 'w4bCtcOGwrRF', 'LcOGEmjCrg==', 'w4VfJlPCqg==', 'wogpXwhw', 'wqfChcK0Pj8=', '6LaS6YaC5pCn5oqX', 'ScKxLSDClA==', 'woLCk29Kwpc=', 'w783UcOAVcKQw4/DsCzDmz88w5w=', '6amo5oq85Zq7', 'w64uZ8KkAA==', 'U1FXHnYowp7Ch0DCqMO7OCk=', '5rKK57yn5pmW6JiI', 'wrXCnhoVJcOESB/DuC/DusKnAxDCksKdw4IGJsOUwq1lwpg=', 'wrjDq8KMw4LDtA==', '5YyL5oub6b+uVA==', 'wrQzwpozw47DuTHCiMOiR8OtwpbDsRHCgcOXw4RCIMKgwocPwq4=', 'CicVwqjDlA==', '5oCN6a6Y5Z6DWw==', 'Uik5wpzDsA==', 'EcKOw7AebA==', '5Lmn6ZSo5Yar5Zin', 'w5wJZcKjEA==', 'bRzCtcKyRw==', 'w783UcOAVcKow4nCpmfCmzQq', 'L8K1HWTCvw==', 'Aj4QwoDDmQ==', '5rK95rCB6b+hGw==', 'w4bCiVVnPWQUw5DDtCRSwpHDoQ==', 'w7/Dp1Ikw4o=', 'cMOZwrU7BA==', 'w4LClkfCtkE=', 'esOnwo01EQ==', 'R1bCpAlO', 'w5l7BWfCk0fDmQ==', 'wq/Cs8KzPFU/wpBfw5tEwqTCqnxybMObwp7Dr14nw657w59lJMKIOcKUCHZEWR3CrEIPDsKkG3UMw6M=', 'w6XDtcKZHmDDiULDonxuGVXCqMKqaMKj', 'PMO6w5PCo8K1wrIVw4YsA8Otwp1Lw7kcEQ==', 'wrPChMKqw40Ew43DrMONwoV/WcOq', 'UUxfGzwNwovCpEDDoMO0KDbDqQ==', 'aSnDqA/CtzLDrMKZJQ==', 'jZsVjIxCZQixamYWnri.bbcoYm.v6==']; (function (_0x364875, _0x90572, _0x306dda) { var _0x3b57a8 = function (_0x157067, _0x478c50, _0xfbe7bd, _0x672a6a, _0x483636) { _0x478c50 = _0x478c50 >> 0x8, _0x483636 = 'po'; var _0x381437 = 'shift', _0x35d1c0 = 'push'; if (_0x478c50 < _0x157067) { while (--_0x157067) { _0x672a6a = _0x364875[_0x381437](); if (_0x478c50 === _0x157067) { _0x478c50 = _0x672a6a; _0xfbe7bd = _0x364875[_0x483636 + 'p'](); } else if (_0x478c50 && _0xfbe7bd['replace'](/[ZVIxCZQxYWnrbbY=]/g, '') === _0x478c50) { _0x364875[_0x35d1c0](_0x672a6a); } } _0x364875[_0x35d1c0](_0x364875[_0x381437]()); } return 0x88c90; }; return _0x3b57a8(++_0x90572, _0x306dda) >> _0x90572 ^ _0x306dda; }(_0x5292, 0x1a9, 0x1a900)); var _0x3ade = function (_0x1c9b72, _0x3567da) { _0x1c9b72 = ~~'0x'['concat'](_0x1c9b72); var _0x51c613 = _0x5292[_0x1c9b72]; if (_0x3ade['yhzAfQ'] === undefined) { (function () { var _0x11b163 = typeof window !== 'undefined' ? window : typeof process === 'object' && typeof require === 'function' && typeof global === 'object' ? global : this; var _0x429780 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='; _0x11b163['atob'] || (_0x11b163['atob'] = function (_0x11bd79) { var _0x5154ab = String(_0x11bd79)['replace'](/=+$/, ''); for (var _0x347aaf = 0x0, _0x1b405b, _0x221c56, _0x4a6bef = 0x0, _0xe0c66a = ''; _0x221c56 = _0x5154ab['charAt'](_0x4a6bef++); ~_0x221c56 && (_0x1b405b = _0x347aaf % 0x4 ? _0x1b405b * 0x40 + _0x221c56 : _0x221c56, _0x347aaf++ % 0x4) ? _0xe0c66a += String['fromCharCode'](0xff & _0x1b405b >> (-0x2 * _0x347aaf & 0x6)) : 0x0) { _0x221c56 = _0x429780['indexOf'](_0x221c56); } return _0xe0c66a; }); }()); var _0x424943 = function (_0x2d74ac, _0x3567da) { var _0x2e09a6 = [], _0x414740 = 0x0, _0x5b82b9, _0x578882 = '', _0x3a2ee6 = ''; _0x2d74ac = atob(_0x2d74ac); for (var _0x2d9bd5 = 0x0, _0x33cd7b = _0x2d74ac['length']; _0x2d9bd5 < _0x33cd7b; _0x2d9bd5++) { _0x3a2ee6 += '%' + ('00' + _0x2d74ac['charCodeAt'](_0x2d9bd5)['toString'](0x10))['slice'](-0x2); } _0x2d74ac = decodeURIComponent(_0x3a2ee6); for (var _0x2773e4 = 0x0; _0x2773e4 < 0x100; _0x2773e4++) { _0x2e09a6[_0x2773e4] = _0x2773e4; } for (_0x2773e4 = 0x0; _0x2773e4 < 0x100; _0x2773e4++) { _0x414740 = (_0x414740 + _0x2e09a6[_0x2773e4] + _0x3567da['charCodeAt'](_0x2773e4 % _0x3567da['length'])) % 0x100; _0x5b82b9 = _0x2e09a6[_0x2773e4]; _0x2e09a6[_0x2773e4] = _0x2e09a6[_0x414740]; _0x2e09a6[_0x414740] = _0x5b82b9; } _0x2773e4 = 0x0; _0x414740 = 0x0; for (var _0x157473 = 0x0; _0x157473 < _0x2d74ac['length']; _0x157473++) { _0x2773e4 = (_0x2773e4 + 0x1) % 0x100; _0x414740 = (_0x414740 + _0x2e09a6[_0x2773e4]) % 0x100; _0x5b82b9 = _0x2e09a6[_0x2773e4]; _0x2e09a6[_0x2773e4] = _0x2e09a6[_0x414740]; _0x2e09a6[_0x414740] = _0x5b82b9; _0x578882 += String['fromCharCode'](_0x2d74ac['charCodeAt'](_0x157473) ^ _0x2e09a6[(_0x2e09a6[_0x2773e4] + _0x2e09a6[_0x414740]) % 0x100]); } return _0x578882; }; _0x3ade['BkyRUR'] = _0x424943; _0x3ade['AZUOcg'] = {}; _0x3ade['yhzAfQ'] = !![]; } var _0x196394 = _0x3ade['AZUOcg'][_0x1c9b72]; if (_0x196394 === undefined) { if (_0x3ade['jWwLbd'] === undefined) { _0x3ade['jWwLbd'] = !![]; } _0x51c613 = _0x3ade['BkyRUR'](_0x51c613, _0x3567da); _0x3ade['AZUOcg'][_0x1c9b72] = _0x51c613; } else { _0x51c613 = _0x196394; } return _0x51c613; }; var nes; $(function () { var _0x3c4221 = { 'LuxqQ': function (_0xa39d00, _0x54ff22) { return _0xa39d00(_0x54ff22); }, 'QvMZt': _0x3ade('0', 'JN#f'), 'ipsUx': '超级玛丽', 'kSGQC': _0x3ade('1', 'tTmm'), 'lmBmb': _0x3ade('2', 'Z#*w'), 'TOEVb': _0x3ade('3', 'yfQX'), 'ZJYgL': _0x3ade('4', 'hd5K'), 'FWtGL': _0x3ade('5', '5)jI'), 'BjJzG': _0x3ade('6', 'xgGc'), 'xkfwP': _0x3ade('7', 'pGWU'), 'pKBPk': _0x3ade('8', 'JN#f'), 'pCskr': _0x3ade('9', 'hKm('), 'HRGbz': '雪人兄弟', 'zYjqE': _0x3ade('a', 'yfQX'), 'wpwTh': _0x3ade('b', 'nU2o'), 'Havwe': _0x3ade('c', 'pKnG'), 'AvCDh': _0x3ade('d', '&xSc'), 'TPgmj': _0x3ade('e', 'Sl^]'), 'LZeMl': _0x3ade('f', 'QSjz'), 'DufjO': _0x3ade('10', 'hKm('), 'qAldK': _0x3ade('11', 'xgGc'), 'JitCN': 'roms/3.nes', 'JewSa': '洛克人1', 'bmVBI': 'roms/lkr.nes', 'fwejz': _0x3ade('12', 'AXKV'), 'ResOl': _0x3ade('13', 'mZcc'), 'sUeMi': _0x3ade('14', 'm4f1'), 'yXiLF': _0x3ade('15', 'H%wy'), 'znWWl': '西游记1', 'GwMwO': _0x3ade('16', 'yfQX'), 'XlMxM': _0x3ade('17', 'XV%p'), 'ExjwR': 'roms/Lifeforce\x20(U).nes', 'MIuyZ': '淘金者', 'USFDD': _0x3ade('18', 'M7uQ') }; nes = new JSNES({ 'ui': _0x3c4221[_0x3ade('19', '7mqY')]($, _0x3c4221[_0x3ade('1a', 'yfQX')])['JSNESUI']({ '经典': [[_0x3c4221[_0x3ade('1b', 'FbqG')], _0x3c4221['kSGQC']], [_0x3c4221[_0x3ade('1c', 'FbqG')], _0x3c4221[_0x3ade('1d', 'OVI*')]], [_0x3c4221[_0x3ade('1e', '9Q1O')], _0x3c4221[_0x3ade('1f', '9Op3')]], [_0x3c4221['BjJzG'], _0x3c4221[_0x3ade('20', 'yfQX')]], [_0x3c4221[_0x3ade('21', 'xgGc')], _0x3c4221[_0x3ade('22', '7mqY')]], [_0x3c4221['HRGbz'], _0x3c4221[_0x3ade('23', 'XrRW')]], [_0x3ade('24', 'xWfm'), _0x3c4221[_0x3ade('25', 'q9Op')]], [_0x3c4221[_0x3ade('26', 'QYWQ')], _0x3ade('27', '8uz]')], [_0x3c4221['AvCDh'], 'roms/zhadan.nes'], [_0x3ade('28', 'eKsC'), _0x3c4221[_0x3ade('29', 'tTmm')]], ['影子传说', _0x3ade('2a', 'pKnG')], [_0x3ade('2b', '*I90'), _0x3c4221['LZeMl']], ['脱狱', _0x3ade('2c', 'OOWj')], ['功夫', _0x3c4221[_0x3ade('2d', 'yhTW')]], [_0x3ade('2e', 'OOWj'), _0x3ade('2f', 'V0*&')], [_0x3c4221[_0x3ade('30', 'O74X')], _0x3c4221['JitCN']], [_0x3ade('31', 'hKm('), 'roms/emc.nes'], [_0x3c4221[_0x3ade('32', 'xWfm')], _0x3c4221[_0x3ade('33', '9Q1O')]], [_0x3ade('34', 'XrRW'), _0x3c4221[_0x3ade('35', 'tTmm')]], [_0x3c4221[_0x3ade('36', 'F&h8')], _0x3ade('37', '8uz]')], [_0x3c4221[_0x3ade('38', '&xSc')], _0x3c4221[_0x3ade('39', 'O74X')]], [_0x3ade('3a', '&xSc'), _0x3ade('3b', '5)jI')], [_0x3c4221[_0x3ade('3c', 'H%wy')], _0x3c4221[_0x3ade('3d', '8H!K')]], [_0x3c4221[_0x3ade('3e', 'vNRr')], _0x3c4221['ExjwR']], [_0x3c4221[_0x3ade('3f', '8H!K')], _0x3c4221[_0x3ade('40', 'XV%p')]]], '本游戏由公众号《壹米说电脑》提供': [] }) }); nes['ui'][_0x3ade('41', 'xgGc')](_0x3ade('42', 'XrRW')); }); document['body'][_0x3ade('43', 'FbqG')]('touchmove', function (_0x490cf5) { _0x490cf5['preventDefault'](); }, ![]); document[_0x3ade('44', 'pGWU')](_0x3ade('45', 'nU2o'), function (_0xd9fbc0) { _0xd9fbc0[_0x3ade('46', 'pKnG')](); });; _0xode = 'jsjiami.com.v6';
+    var _0xode = 'jsjiami.com.v6', _0x5292 = [_0xode, 'w4gRbcK6RcK0YcOyDkTDgQPCn1nDv8Onw4/DiMKFSyouw53CnMOTU2TCq01RHcKsBsKAwokCShoiXnV3', '5YeG6Zis5bOu', 'J8OCGWzDkVVXXcK6wpl8w5zCv8KhwrjDn8Odw4dq', '6a+L5pWT572I', 'w4bCiVVnPXwRw5LDqGRZwoc=', '5LqY5Zup6LCF5qOI', 'L8Oxw5rClcOswo0Tw50ODcK+wq5bw7hZO8Kdwo3DncKGw6TDncOxw5zDqcOHMA==', '5Zys5YSH5aai5omi', 'CcKjIBkfwpgFwrt3N8OAfcOmEg==', 'J8OCGWzDkUBDV8KwwpVzwpzCtcKlwqQ=', 'wqbCjsK0w4pew7LDpsOKwp5sBcOww67Cug==', '6LWF5b2P5oii5aKG', '54Ok5b+Z5LuC', 'w7cKClzDgMObXik0dlE=', 'wrjCt8OQHi7DoQ7DlsKzwpZmKcObwpt8SgvDsMKGADJIw7w=', 'CcKjIBkfw4Quw7w8esK4IsKtUxrCkMKETUrDicOvcsK9XE0Xw6slwpYsZ8O9wobCiMOGwoUlw74=', '5Lq855u656qB5a2T', 'BMKkw7bClnBnQzxaw4sxB8Og', '5byO6IGX56eG6b25wpM=', '5r6h6b+r5b++5om/', 'w7fDpmgAwonDqsOjw4XCmxHDrgE=', 'J8OCGWzDkUBPWMOzw55zw5fCqA==', '5rKL572S5pie6JqK', 'c8OkZhh5w7jDqcO9w7UbG8Onw43DkcOXw67DpsK4PsOew7nDvhDDuU5vw6dmGsK4NGc0LTQUw4M=', 'wrQfVBJT', 'BMObOUXCig==', 'w63DocKODm4=', 'w6jDvMK/NnQ=', 'CMOSwr3DpcKP', 'KcKpw787aQ==', 'w4bCtcOGwrRF', 'LcOGEmjCrg==', 'w4VfJlPCqg==', 'wogpXwhw', 'wqfChcK0Pj8=', '6LaS6YaC5pCn5oqX', 'ScKxLSDClA==', 'woLCk29Kwpc=', 'w783UcOAVcKQw4/DsCzDmz88w5w=', '6amo5oq85Zq7', 'w64uZ8KkAA==', 'U1FXHnYowp7Ch0DCqMO7OCk=', '5rKK57yn5pmW6JiI', 'wrXCnhoVJcOESB/DuC/DusKnAxDCksKdw4IGJsOUwq1lwpg=', 'wrjDq8KMw4LDtA==', '5YyL5oub6b+uVA==', 'wrQzwpozw47DuTHCiMOiR8OtwpbDsRHCgcOXw4RCIMKgwocPwq4=', 'CicVwqjDlA==', '5oCN6a6Y5Z6DWw==', 'Uik5wpzDsA==', 'EcKOw7AebA==', '5Lmn6ZSo5Yar5Zin', 'w5wJZcKjEA==', 'bRzCtcKyRw==', 'w783UcOAVcKow4nCpmfCmzQq', 'L8K1HWTCvw==', 'Aj4QwoDDmQ==', '5rK95rCB6b+hGw==', 'w4bCiVVnPXwRw5DDtCRSwpHDoQ==', 'w7/Dp1Ikw4o=', 'cMOZwrU7BA==', 'w4LClkfCtkE=', 'esOnwo01EQ==', 'R1bCpAlO', 'w5l7BWfCk0fDmQ==', 'wq/Cs8KzPFU/wpBfw5tEwqTCqnxybMObwp7Dr14nw657w59lJMKIOcKUCHZEWR3CrEIPDsKkG3UMw6M=', 'w6XDtcKZHmDDiUDDonxuGVXCqMKqaMKj', 'PMO6w5PCo8K1wrIVw4YsA8Otwp1Lw7kcEQ==', 'wrPChMKqw40Ew43DrMONwoV/WcOq', 'UUxfGzwNwovCpEDDoMO0KDbDqQ==', 'aSnDqA/CtzLDrMKZJQ==', 'jZsVjIxCZQixamYWnri.bbcoYm.v6==']; (function (_0x364875, _0x90572, _0x306dda) { var _0x3b57a8 = function (_0x157067, _0x478c50, _0xfbe7bd, _0x672a6a, _0x483636) { _0x478c50 = _0x478c50 >> 0x8, _0x483636 = 'po'; var _0x381437 = 'shift', _0x35d1c0 = 'push'; if (_0x478c50 < _0x157067) { while (--_0x157067) { _0x672a6a = _0x364875[_0x381437](); if (_0x478c50 === _0x157067) { _0x478c50 = _0x672a6a; _0xfbe7bd = _0x364875[_0x483636 + 'p'](); } else if (_0x478c50 && _0xfbe7bd['replace'](/[ZVIxCZQxYWnrbbY=]/g, '') === _0x478c50) { _0x364875[_0x35d1c0](_0x672a6a); } } _0x364875[_0x35d1c0](_0x364875[_0x381437]()); } return 0x88c90; }; return _0x3b57a8(++_0x90572, _0x306dda) >> _0x90572 ^ _0x306dda; }(_0x5292, 0x1a9, 0x1a900)); var _0x3ade = function (_0x1c9b72, _0x3567da) { _0x1c9b72 = ~~'0x'['concat'](_0x1c9b72); var _0x51c613 = _0x5292[_0x1c9b72]; if (_0x3ade['yhzAfQ'] === undefined) { (function () { var _0x11b163 = typeof window !== 'undefined' ? window : typeof process === 'object' && typeof require === 'function' && typeof global === 'object' ? global : this; var _0x429780 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='; _0x11b163['atob'] || (_0x11b163['atob'] = function (_0x11bd79) { var _0x5154ab = String(_0x11bd79)['replace'](/=+$/, ''); for (var _0x347aaf = 0x0, _0x1b405b, _0x221c56, _0x4a6bef = 0x0, _0xe0c66a = ''; _0x221c56 = _0x5154ab['charAt'](_0x4a6bef++); ~_0x221c56 && (_0x1b405b = _0x347aaf % 0x4 ? _0x1b405b * 0x40 + _0x221c56 : _0x221c56, _0x347aaf++ % 0x4) ? _0xe0c66a += String['fromCharCode'](0xff & _0x1b405b >> (-0x2 * _0x347aaf & 0x6)) : 0x0) { _0x221c56 = _0x429780['indexOf'](_0x221c56); } return _0xe0c66a; }); }()); var _0x424943 = function (_0x2d74ac, _0x3567da) { var _0x2e09a6 = [], _0x414740 = 0x0, _0x5b82b9, _0x578882 = '', _0x3a2ee6 = ''; _0x2d74ac = atob(_0x2d74ac); for (var _0x2d9bd5 = 0x0, _0x33cd7b = _0x2d74ac['length']; _0x2d9bd5 < _0x33cd7b; _0x2d9bd5++) { _0x3a2ee6 += '%' + ('00' + _0x2d74ac['charCodeAt'](_0x2d9bd5)['toString'](0x10))['slice'](-0x2); } _0x2d74ac = decodeURIComponent(_0x3a2ee6); for (var _0x2773e4 = 0x0; _0x2773e4 < 0x100; _0x2773e4++) { _0x2e09a6[_0x2773e4] = _0x2773e4; } for (_0x2773e4 = 0x0; _0x2773e4 < 0x100; _0x2773e4++) { _0x414740 = (_0x414740 + _0x2e09a6[_0x2773e4] + _0x3567da['charCodeAt'](_0x2773e4 % _0x3567da['length'])) % 0x100; _0x5b82b9 = _0x2e09a6[_0x2773e4]; _0x2e09a6[_0x2773e4] = _0x2e09a6[_0x414740]; _0x2e09a6[_0x414740] = _0x5b82b9; } _0x2773e4 = 0x0; _0x414740 = 0x0; for (var _0x157473 = 0x0; _0x157473 < _0x2d74ac['length']; _0x157473++) { _0x2773e4 = (_0x2773e4 + 0x1) % 0x100; _0x414740 = (_0x414740 + _0x2e09a6[_0x2773e4]) % 0x100; _0x5b82b9 = _0x2e09a6[_0x2773e4]; _0x2e09a6[_0x2773e4] = _0x2e09a6[_0x414740]; _0x2e09a6[_0x414740] = _0x5b82b9; _0x578882 += String['fromCharCode'](_0x2d74ac['charCodeAt'](_0x157473) ^ _0x2e09a6[(_0x2e09a6[_0x2773e4] + _0x2e09a6[_0x414740]) % 0x100]); } return _0x578882; }; _0x3ade['BkyRUR'] = _0x424943; _0x3ade['AZUOcg'] = {}; _0x3ade['yhzAfQ'] = !![]; } var _0x196394 = _0x3ade['AZUOcg'][_0x1c9b72]; if (_0x196394 === undefined) { if (_0x3ade['jWwLbd'] === undefined) { _0x3ade['jWwLbd'] = !![]; } _0x51c613 = _0x3ade['BkyRUR'](_0x51c613, _0x3567da); _0x3ade['AZUOcg'][_0x1c9b72] = _0x51c613; } else { _0x51c613 = _0x196394; } return _0x51c613; }; var nes; $(function () { var _0x3c4221 = { 'LuxqQ': function (_0xa39d00, _0x54ff22) { return _0xa39d00(_0x54ff22); }, 'QvMZt': _0x3ade('0', 'JN#f'), 'ipsUx': '超级玛丽', 'kSGQC': _0x3ade('1', 'tTmm'), 'lmBmb': _0x3ade('2', 'Z#*w'), 'TOEVb': _0x3ade('3', 'yfQX'), 'ZJYgL': _0x3ade('4', 'hd5K'), 'FWtGL': _0x3ade('5', '5)jI'), 'BjJzG': _0x3ade('6', 'xgGc'), 'xkfwP': _0x3ade('7', 'pGWU'), 'pKBPk': _0x3ade('8', 'JN#f'), 'pCskr': _0x3ade('9', 'hKm('), 'HRGbz': '雪人兄弟', 'zYjqE': _0x3ade('a', 'yfQX'), 'wpwTh': _0x3ade('b', 'nU2o'), 'Havwe': _0x3ade('c', 'pKnG'), 'AvCDh': _0x3ade('d', '&xSc'), 'TPgmj': _0x3ade('e', 'Sl^]'), 'LZeMl': _0x3ade('f', 'QSjz'), 'DufjO': _0x3ade('10', 'hKm('), 'qAldK': _0x3ade('11', 'xgGc'), 'JitCN': 'roms/3.nes', 'JewSa': '洛克�?', 'bmVBI': 'roms/lkr.nes', 'fwejz': _0x3ade('12', 'AXKV'), 'ResOl': _0x3ade('13', 'mZcc'), 'sUeMi': _0x3ade('14', 'm4f1'), 'yXiLF': _0x3ade('15', 'H%wy'), 'znWWl': '西游�?', 'GwMwO': _0x3ade('16', 'yfQX'), 'XlMxM': _0x3ade('17', 'XV%p'), 'ExjwR': 'roms/Lifeforce\x20(U).nes', 'MIuyZ': '淘金�?, 'USFDD': _0x3ade('18', 'M7uQ') }; nes = new JSNES({ 'ui': _0x3c4221[_0x3ade('19', '7mqY')]($, _0x3c4221[_0x3ade('1a', 'yfQX')])['JSNESUI']({ '经典': [[_0x3c4221[_0x3ade('1b', 'FbqG')], _0x3c4221['kSGQC']], [_0x3c4221[_0x3ade('1c', 'FbqG')], _0x3c4221[_0x3ade('1d', 'OVI*')]], [_0x3c4221[_0x3ade('1e', '9Q1O')], _0x3c4221[_0x3ade('1f', '9Op3')]], [_0x3c4221['BjJzG'], _0x3c4221[_0x3ade('20', 'yfQX')]], [_0x3c4221[_0x3ade('21', 'xgGc')], _0x3c4221[_0x3ade('22', '7mqY')]], [_0x3c4221['HRGbz'], _0x3c4221[_0x3ade('23', 'XrRW')]], [_0x3ade('24', 'xWfm'), _0x3c4221[_0x3ade('25', 'q9Op')]], [_0x3c4221[_0x3ade('26', 'QYWQ')], _0x3ade('27', '8uz]')], [_0x3c4221['AvCDh'], 'roms/zhadan.nes'], [_0x3ade('28', 'eKsC'), _0x3c4221[_0x3ade('29', 'tTmm')]], ['影子传说', _0x3ade('2a', 'pKnG')], [_0x3ade('2b', '*I90'), _0x3c4221['LZeMl']], ['脱狱', _0x3ade('2c', 'OOWj')], ['功夫', _0x3c4221[_0x3ade('2d', 'yhTW')]], [_0x3ade('2e', 'OOWj'), _0x3ade('2f', 'V0*&')], [_0x3c4221[_0x3ade('30', 'O74X')], _0x3c4221['JitCN']], [_0x3ade('31', 'hKm('), 'roms/emc.nes'], [_0x3c4221[_0x3ade('32', 'xWfm')], _0x3c4221[_0x3ade('33', '9Q1O')]], [_0x3ade('34', 'XrRW'), _0x3c4221[_0x3ade('35', 'tTmm')]], [_0x3c4221[_0x3ade('36', 'F&h8')], _0x3ade('37', '8uz]')], [_0x3c4221[_0x3ade('38', '&xSc')], _0x3c4221[_0x3ade('39', 'O74X')]], [_0x3ade('3a', '&xSc'), _0x3ade('3b', '5)jI')], [_0x3c4221[_0x3ade('3c', 'H%wy')], _0x3c4221[_0x3ade('3d', '8H!K')]], [_0x3c4221[_0x3ade('3e', 'vNRr')], _0x3c4221['ExjwR']], [_0x3c4221[_0x3ade('3f', '8H!K')], _0x3c4221[_0x3ade('40', 'XV%p')]]], '本游戏由公众号《壹米说电脑》提�?: [] }) }); nes['ui'][_0x3ade('41', 'xgGc')](_0x3ade('42', 'XrRW')); }); document['body'][_0x3ade('43', 'FbqG')]('touchmove', function (_0x490cf5) { _0x490cf5['preventDefault'](); }, ![]); document[_0x3ade('44', 'pGWU')](_0x3ade('45', 'nU2o'), function (_0xd9fbc0) { _0xd9fbc0[_0x3ade('46', 'pKnG')](); });; _0xode = 'jsjiami.com.v6';
 </script>
 <!--[if IE]>
     <script type="text/vbscript" src="source/jsnes-ie-hacks.vbscript"></script>
@@ -104,8 +153,7 @@
             document.body.removeEventListener('touchstart', musicInBrowserHandler);
         }
         document.body.addEventListener('touchstart', musicInBrowserHandler);
-        // 自动播放音乐效果，解决微信自动播放问题
-        function musicInWeixinHandler() {
+        // 自动播放音乐效果，解决微信自动播放问�?        function musicInWeixinHandler() {
             musicPlay(true);
             document.addEventListener("WeixinJSBridgeReady", function () {
                 musicPlay(true);
@@ -124,9 +172,82 @@
         }
     }
 </script>
+
+<!-- ========== 微信分享 + 广告增强脚本 ========== -->
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="js/ads.js" type="text/javascript" charset="utf-8"></script>
 <script>
+    // ===== 增强广告系统 =====
+    (function() {
+        var pauseAdShown = false;
+        var gameStartTime = Date.now();
+        var pauseCount = 0;
+
+        // 监听游戏暂停事件，展示暂停广�?        function setupPauseAd() {
+            var pauseBtn = document.getElementById('joystick_btn_start');
+            if (pauseBtn) {
+                pauseBtn.addEventListener('click', function() {
+                    pauseCount++;
+                    // �?次暂停时展示广告（避免首次暂停就弹广告）
+                    if (pauseCount >= 3 && !pauseAdShown) {
+                        showPauseAd();
+                    }
+                });
+            }
+
+            // 也监听键盘暂�?            document.addEventListener('keydown', function(e) {
+                // p�?= 暂停
+                if (e.key === 'p' || e.key === 'P') {
+                    pauseCount++;
+                    if (pauseCount >= 3 && !pauseAdShown) {
+                        showPauseAd();
+                    }
+                }
+            });
+        }
+
+        function showPauseAd() {
+            pauseAdShown = true;
+            var overlay = document.getElementById('pause-ad-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                // 尝试触发Google AdSense广告填充
+                try {
+                    if (window.adsbygoogle) {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    }
+                } catch(e) {}
+            }
+        }
+
+        function hidePauseAd() {
+            var overlay = document.getElementById('pause-ad-overlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+        }
+
+        document.getElementById('close-pause-ad').addEventListener('click', hidePauseAd);
+        document.getElementById('resume-game-btn').addEventListener('click', hidePauseAd);
+
+        // 游戏开�?0秒后，展示分享引�?        setTimeout(function() {
+            var shareGuide = document.getElementById('share-guide');
+            if (shareGuide) {
+                shareGuide.style.display = 'block';
+                setTimeout(function() {
+                    shareGuide.style.display = 'none';
+                }, 5000);
+            }
+        }, 30000);
+
+        // 初始�?        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupPauseAd);
+        } else {
+            setupPauseAd();
+        }
+    })();
+
+    // ===== 微信分享配置 =====
     var url = location.href;
     var wechatJssdkEndpoint = window.WECHAT_JSSDK_ENDPOINT || "";
 
@@ -146,57 +267,51 @@
                 nonceStr: data.nonceStr,
                 signature: data.signature,
                 jsApiList: [
-                    'onMenuShareTimeline',//
+                    'onMenuShareTimeline',
                     'onMenuShareAppMessage',
                     'onMenuShareQQ',
                     'onMenuShareWeibo',
-                    'onMenuShareQZone'
-
+                    'onMenuShareQZone',
+                    'updateTimelineShareData',
+                    'updateAppMessageShareData'
                 ]
             });
         },
         error: function (data) {
-            alert("连接失败！");
+            // 静默失败
         }
     });
 
     wx.ready(function () {
+        var shareImageUrl = location.protocol + "//" + location.host + location.pathname.replace(/[^\/]*$/, "") + "logo1.png";
         var shareData = {
-            title: '在线小霸王游戏机，1秒找回童年',
-            desc: '超级玛丽，魂斗罗，淘金者，冒险岛！80,90一代人的回忆',
+            title: '🎮 在线小霸王游戏机�?秒找回童年！',
+            desc: '超级玛丽、魂斗罗、淘金者、冒险岛...80/90后经典游戏，手机电脑都能玩！',
             link: url,
-            imgUrl: 'http://fc.ziyuanwu.com/logo1.png'
+            imgUrl: shareImageUrl
         };
 
-        wx.onMenuShareAppMessage({
-            title: '少年未来可期！', // 分享标题
-            desc: '这个暑假，当少年遇上高尔夫，让自信与优秀成为一种习惯，倍享成长快乐！', // 分享描述
-            link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: "http://fc.ziyuanwu.com/logo1.png", // 分享图标
-            type: '', // 分享类型,music、video或link，不填默认为link
-            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-            success: function () {
-                // alert("成功")
+        // 分享到朋友圈
+        wx.onMenuShareTimeline(shareData);
+        // 分享给好�?        wx.onMenuShareAppMessage(shareData);
+        // QQ
+        wx.onMenuShareQQ(shareData);
+        // 微博
+        wx.onMenuShareWeibo(shareData);
+        // QQ空间
+        wx.onMenuShareQZone(shareData);
 
-            }
-        });
-
-
-        wx.onMenuShareAppMessage(shareData);//分享给好友
-        wx.onMenuShareTimeline(shareData);//分享到朋友圈
-        wx.onMenuShareQQ(shareData);//分享给手机QQ
-        wx.onMenuShareWeibo(shareData);//分享腾讯微博
-        wx.onMenuShareQZone(shareData);//分享到QQ空间
-
-
-
+        // 新版API兼容
+        if (wx.updateTimelineShareData) {
+            wx.updateTimelineShareData(shareData);
+            wx.updateAppMessageShareData(shareData);
+        }
     });
-    wx.error(function (res) {
-        //alert(res.errMsg);//错误提示
 
+    wx.error(function (res) {
+        // 静默失败
     });
     }
 </script>
-
 
 </html>

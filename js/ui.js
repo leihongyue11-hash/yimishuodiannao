@@ -665,9 +665,15 @@ if (typeof jQuery !== 'undefined') {
             UI.prototype = {
                 loadROM: function () {
                     var self = this;
+                    var romUrl = self.romSelect.val();
+                    if (!romUrl || !/\.nes$/i.test(romUrl)) {
+                        self.updateStatus("请选择游戏...");
+                        return;
+                    }
+
                     self.updateStatus("Downloading...");
                     $.ajax({
-                        url: escape(self.romSelect.val()),
+                        url: encodeURI(romUrl),
                         xhr: function () {
                             var xhr = $.ajaxSettings.xhr();
                             if (typeof xhr.overrideMimeType !== 'undefined') {
@@ -677,7 +683,7 @@ if (typeof jQuery !== 'undefined') {
                             self.xhr = xhr;
                             return xhr;
                         },
-                        complete: function (xhr, status) {
+                        success: function (response, status, xhr) {
                             var i, data;
                             if (JSNES.Utils.isIE()) {
                                 var charCodes = JSNESBinaryToArray(
@@ -693,6 +699,9 @@ if (typeof jQuery !== 'undefined') {
                             self.nes.loadRom(data);
                             self.nes.start();
                             self.enable();
+                        },
+                        error: function () {
+                            self.updateStatus("游戏加载失败");
                         }
                     });
                 },
