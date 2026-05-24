@@ -12,14 +12,18 @@
     <meta name="x5-orientation" content="landscape">
     <meta name="x5-fullscreen" content="true">
     <meta name="x5-page-mode" content="app">
+    <meta name="google-adsense-account" content="ca-pub-5678257058574392">
     <title>怀旧游戏机-公众号《壹米说电脑》</title>
 
     <meta name="keywords" content="c在线玩,fc游戏在线玩,fc在线模拟器,nes在线模拟器,魂斗罗,超级玛丽,忍者龙剑传">
     <meta name="description" content="可在手机电脑上在线玩fc游戏的网站,近乎完美的还原任天堂FC/NES原版ROM游戏的视频和声音。">
     <link href="css/jsnes.css" rel="stylesheet" type="text/css">
+    <link href="css/ads.css" rel="stylesheet" type="text/css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5678257058574392" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <div class="ad-slot ad-slot-top" data-ad-slot="top-banner" aria-label="Advertisement"></div>
     <audio style="display:none; height: 0" id="bg-music" preload="auto" src="bgm.mp3"></audio>
     <!--<embed src="bgm.mp3" hidden="true" autostart="true"/>-->
     <div class="main">
@@ -59,6 +63,7 @@
             <div class="sign">FAMILY <br> COMPUTER</div>
         </div>
     </div>
+    <div class="ad-slot ad-slot-bottom" data-ad-slot="bottom-banner" aria-label="Advertisement"></div>
 </body>
 <script src="js/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/dynamicaudio-min.js" type="text/javascript" charset="utf-8"></script>
@@ -119,14 +124,16 @@
         }
     }
 </script>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="js/ads.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var url = location.href;
+    var wechatJssdkEndpoint = window.WECHAT_JSSDK_ENDPOINT || "";
 
+    if (wechatJssdkEndpoint && window.wx) {
     $.ajax({
         type: "get",
-        url: "http://fc.my71.top/jssdk.php?url=" + url,
+        url: wechatJssdkEndpoint + encodeURIComponent(url),
         dataType: "jsonp",
         jsonp: "callback",
         jsonpCallback: "success_jsonpCallback",
@@ -188,6 +195,7 @@
         //alert(res.errMsg);//错误提示
 
     });
+    }
 </script>
 
 
