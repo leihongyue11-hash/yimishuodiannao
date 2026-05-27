@@ -18,8 +18,5 @@
 
 ----------------------------------------------------
 
-网址总导航：www.xiaodao.biz（请添加到浏览器收藏夹）
+网址总导航：https://leihongyue11-hash.github.io/yimidiannao/（请添加到浏览器收藏夹）
 
-小刀娱乐网：www.x6d.com
-
-淘宝优惠券：www.q678.cn
